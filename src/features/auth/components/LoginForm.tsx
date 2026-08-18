@@ -1,14 +1,68 @@
-// TODO: conectar ao authService.signIn e salvar token via AuthContext
-
+import { useState, type FormEvent } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { isAxiosError } from 'axios'
 import { Input } from '@/components/Input/Input'
 import { Button } from '@/components/Button/Button'
+import { authService } from '../services/auth.service'
+import { useAuth } from '../hooks/useAuth'
+import { decodeUserFromToken } from '../utils/decodeToken'
 
-export const LoginForm = () => (
-  <form className="flex flex-col gap-5">
-    <Input id="username" label="Usuário" placeholder="Digite seu usuário" type="text" />
-    <Input id="password" label="Senha" placeholder="Digite sua senha" type="password" />
-    <Button type="submit" className="w-full">
-      Entrar
-    </Button>
-  </form>
-)
+export const LoginForm = () => {
+  const navigate = useNavigate()
+  const { signIn } = useAuth()
+
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+
+    if (!username || !password) {
+      setError('Preencha usuário e senha')
+      return
+    }
+
+    setError('')
+    setIsLoading(true)
+    try {
+      const response = await authService.signIn({ username, password })
+      const user = decodeUserFromToken(response.token)
+      signIn(response.token, user)
+      navigate('/')
+    } catch (err) {
+      const message = isAxiosError(err)
+        ? (err.response?.data?.message ?? 'Usuário ou senha inválidos')
+        : 'Não foi possível fazer login'
+      setError(message)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  return (
+    <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+      <Input
+        id="username"
+        label="Usuário"
+        placeholder="Digite seu usuário"
+        type="text"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
+      <Input
+        id="password"
+        label="Senha"
+        placeholder="Digite sua senha"
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        error={error || undefined}
+      />
+      <Button type="submit" className="w-full" isLoading={isLoading}>
+        Entrar
+      </Button>
+    </form>
+  )
+}

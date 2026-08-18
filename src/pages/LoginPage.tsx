@@ -1,5 +1,3 @@
-// TODO: conectar LoginForm ao AuthContext e redirecionar após login
-
 import { LoginForm } from '@/features/auth/components/LoginForm'
 
 export const LoginPage = () => (
