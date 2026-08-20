@@ -1,10 +1,19 @@
-import { useContext } from 'react'
-import { AuthContext } from '@/context/AuthContext'
+import { useDispatch, useSelector } from 'react-redux'
+import type { RootState, AppDispatch } from '@/store'
+import { signIn as signInAction, signOut as signOutAction } from '@/store/authSlice'
+import type { User } from '@/features/auth/types/auth.types'
 
 export const useAuth = () => {
-  const context = useContext(AuthContext)
-  if (!context) {
-    throw new Error('useAuth deve ser usado dentro de <AuthProvider>')
+  const dispatch = useDispatch<AppDispatch>()
+  const { user, token } = useSelector((state: RootState) => state.auth)
+
+  const signIn = (newToken: string, newUser: User) => {
+    dispatch(signInAction({ token: newToken, user: newUser }))
   }
-  return context
+
+  const signOut = () => {
+    dispatch(signOutAction())
+  }
+
+  return { user, token, isAuthenticated: !!token, signIn, signOut }
 }
