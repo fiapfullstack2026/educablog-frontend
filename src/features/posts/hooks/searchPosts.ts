@@ -10,24 +10,26 @@ export const searchPosts = (query: string) => {
   useEffect(() => {
     let active = true;
 
-    (async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const result = await postsService.search(query);
-        if (active) setPosts(result);
-      } catch (requestError) {
-        if (active) {
-          setError(
-            requestError instanceof Error
-              ? requestError.message
-              : "Não foi possível carregar os posts.",
-          );
+    if (query != "") {
+      (async () => {
+        setLoading(true);
+        setError(null);
+        try {
+          const result = await postsService.search(query);
+          if (active) setPosts(result);
+        } catch (requestError) {
+          if (active) {
+            setError(
+              requestError instanceof Error
+                ? requestError.message
+                : "Não foi possível carregar os posts.",
+            );
+          }
+        } finally {
+          if (active) setLoading(false);
         }
-      } finally {
-        if (active) setLoading(false);
-      }
-    })();
+      })();
+    }
 
     return () => {
       active = false;
