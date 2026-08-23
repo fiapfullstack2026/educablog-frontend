@@ -7,9 +7,7 @@ import { searchPosts } from "@/features/posts/hooks/searchPosts";
 export const HomePage = () => {
   const [query, setQuery] = useState("");
   const wordCount = query.trim().length;
-  console.log(wordCount);
   const activeQuery = wordCount >= 3 ? query : "";
-  console.log(activeQuery)
   const allPosts = getPosts();
   const searchResults = searchPosts(activeQuery);
   const { posts, loading, error } = activeQuery ? searchResults : allPosts;
