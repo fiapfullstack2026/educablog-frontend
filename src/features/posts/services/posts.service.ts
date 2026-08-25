@@ -5,14 +5,14 @@ import type { Post, CreatePostRequest, UpdatePostRequest } from '../types/post.t
 export const postsService = {
   list: async (): Promise<Post[]> => {
     const { data } = await api.get<ApiListResponse<Post>>('/posts')
-    return data.data
+    return data.data ?? []
   },
 
   search: async (query: string): Promise<Post[]> => {
     const { data } = await api.get<ApiListResponse<Post>>('/posts/search', {
       params: { q: query },
     })
-    return data.data
+    return data.data ?? []
   },
 
   getById: async (id: string): Promise<Post> => {
