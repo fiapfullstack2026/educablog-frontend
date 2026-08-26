@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { LoginForm } from "@/features/auth/components/LoginForm";
 
-export const LoginPage = () => {
+import { RegisterForm } from "@/features/auth/components/RegisterForm";
+
+export const RegisterPage = () => {
   const navigate = useNavigate();
 
   return (
@@ -18,21 +19,21 @@ export const LoginPage = () => {
             </h1>
 
             <p className="text-sm text-gray-500 mt-1">
-              Entre na sua conta para continuar
+              Crie seu acesso para continuar
             </p>
           </div>
 
-          <LoginForm />
+          <RegisterForm />
 
           <div className="mt-5 text-center">
-            <p className="text-sm text-gray-500">Ainda não possui uma conta?</p>
+            <p className="text-sm text-gray-500">Já possui uma conta?</p>
 
             <button
               type="button"
-              onClick={() => navigate("/register")}
+              onClick={() => navigate("/login")}
               className="mt-1 font-semibold text-sky-600 hover:text-sky-500 transition"
             >
-              Cadastrar usuário
+              Voltar para o login
             </button>
           </div>
         </div>
