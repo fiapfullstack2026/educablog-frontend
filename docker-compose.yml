@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: ${FRONTEND_IMAGE:-educablog-frontend}
+    build:
+      context: .
+      args:
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:3000}
+    container_name: educablog-frontend
+    ports:
+      - '8080:80'
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  api:
+    image: ${API_IMAGE:-fiapfullstack/educablog-api:1.0}
+    container_name: educablog-api
+    ports:
+      - '3000:3000'
+    environment:
+      - PORT=3000
+      - MONGODB_URI=mongodb://mongo:27017/educablog
+      - NODE_ENV=development
+      - JWT_SECRET=${JWT_SECRET:-dev-secret}
+    depends_on:
+      mongo:
+        condition: service_healthy
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:7
+    container_name: educablog-mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ['CMD', 'mongosh', '--eval', "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  mongo_data:

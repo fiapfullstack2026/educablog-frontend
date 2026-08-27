@@ -13,7 +13,14 @@ interface PostFormProps {
 }
 
 export const PostForm = ({ onSubmit, isLoading }: PostFormProps) => (
-  <form className="flex flex-col gap-5 max-w-2xl">
+  <form
+    className="flex flex-col gap-5 max-w-2xl"
+    onSubmit={(e) => {
+      e.preventDefault()
+      // TODO: coletar valores dos campos e validar antes de enviar
+      void onSubmit
+    }}
+  >
     <Input id="title" label="Título" placeholder="Título do post" />
     <Input id="discipline" label="Disciplina" placeholder="Ex: Matemática, Física..." />
     <Input id="teacher" label="Professor(a)" placeholder="Nome do professor(a)" />

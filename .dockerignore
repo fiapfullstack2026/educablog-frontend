@@ -1,0 +1,14 @@
+node_modules
+dist
+.git
+.gitignore
+.env
+.env.local
+*.log
+.DS_Store
+Dockerfile
+.dockerignore
+docker-compose*.yml
+.claude
+README.md
+tsconfig.tsbuildinfo
