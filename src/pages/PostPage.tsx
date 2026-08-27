@@ -6,7 +6,7 @@ export const PostPage = () => {
   const { id } = useParams();
 
   const [post, setPost] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
