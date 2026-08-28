@@ -14,7 +14,7 @@ export const getPosts = () => {
       setLoading(true);
       setError(null);
       try {
-        const result = await postsService.list();
+        const result = await postsService.getPosts();
         if (active) setPosts(result);
       } catch (requestError) {
         if (active) {
