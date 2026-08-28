@@ -119,12 +119,14 @@ export const HomePage = () => {
                 </h2>
 
                 <p className="mt-3 text-sm leading-6 text-gray-500">
-                  {post.description || post.content}
+                  {post.content
+                    ? `${post.content.slice(0, 120)}${post.content.length > 120 ? "..." : ""}`
+                    : "Sem descrição disponível."}
                 </p>
 
                 <div className="mt-5 flex items-center justify-between gap-3">
                   <span className="text-xs text-gray-400">
-                    Por {post.teacher || post.author || "Não informado"}
+                    Autor: {post.teacher || post.author || "Não informado"}
                   </span>
 
                   <Link
