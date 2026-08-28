@@ -7,489 +7,10 @@ export const HomePage = () => {
   const [posts, setPosts] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const data = await postsService.getPosts();
+  const [viewedPosts, setViewedPosts] = useState<string[]>(() => {
+    return JSON.parse(localStorage.getItem("viewedPosts") || "[]");
+  });
 
-        const postsList = Array.isArray(data)
-          ? data
-          : Array.isArray(data.posts)
-            ? data.posts
-            : Array.isArray(data.data)
-              ? data.data
-              : [];
-
-        setPosts(postsList);
-      } catch (error) {
-        console.error("Erro ao buscar posts:", error);
-        setPosts([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadPosts();
-  }, []);
-  useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const data = await postsService.getPosts();
-
-        const postsList = Array.isArray(data)
-          ? data
-          : Array.isArray(data.posts)
-            ? data.posts
-            : Array.isArray(data.data)
-              ? data.data
-              : [];
-
-        setPosts(postsList);
-      } catch (error) {
-        console.error("Erro ao buscar posts:", error);
-        setPosts([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadPosts();
-  }, []);
-  useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const data = await postsService.getPosts();
-
-        const postsList = Array.isArray(data)
-          ? data
-          : Array.isArray(data.posts)
-            ? data.posts
-            : Array.isArray(data.data)
-              ? data.data
-              : [];
-
-        setPosts(postsList);
-      } catch (error) {
-        console.error("Erro ao buscar posts:", error);
-        setPosts([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadPosts();
-  }, []);
-  useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const data = await postsService.getPosts();
-
-        const postsList = Array.isArray(data)
-          ? data
-          : Array.isArray(data.posts)
-            ? data.posts
-            : Array.isArray(data.data)
-              ? data.data
-              : [];
-
-        setPosts(postsList);
-      } catch (error) {
-        console.error("Erro ao buscar posts:", error);
-        setPosts([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadPosts();
-  }, []);
-
-  useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const data = await postsService.getPosts();
-
-        const postsList = Array.isArray(data)
-          ? data
-          : Array.isArray(data.posts)
-            ? data.posts
-            : Array.isArray(data.data)
-              ? data.data
-              : [];
-
-        setPosts(postsList);
-      } catch (error) {
-        console.error("Erro ao buscar posts:", error);
-        setPosts([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadPosts();
-  }, []);
-  useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const data = await postsService.getPosts();
-
-        const postsList = Array.isArray(data)
-          ? data
-          : Array.isArray(data.posts)
-            ? data.posts
-            : Array.isArray(data.data)
-              ? data.data
-              : [];
-
-        setPosts(postsList);
-      } catch (error) {
-        console.error("Erro ao buscar posts:", error);
-        setPosts([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadPosts();
-  }, []);
-  useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const data = await postsService.getPosts();
-
-        const postsList = Array.isArray(data)
-          ? data
-          : Array.isArray(data.posts)
-            ? data.posts
-            : Array.isArray(data.data)
-              ? data.data
-              : [];
-
-        setPosts(postsList);
-      } catch (error) {
-        console.error("Erro ao buscar posts:", error);
-        setPosts([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadPosts();
-  }, []);
-  useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const data = await postsService.getPosts();
-
-        const postsList = Array.isArray(data)
-          ? data
-          : Array.isArray(data.posts)
-            ? data.posts
-            : Array.isArray(data.data)
-              ? data.data
-              : [];
-
-        setPosts(postsList);
-      } catch (error) {
-        console.error("Erro ao buscar posts:", error);
-        setPosts([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadPosts();
-  }, []);
-  useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const data = await postsService.getPosts();
-
-        const postsList = Array.isArray(data)
-          ? data
-          : Array.isArray(data.posts)
-            ? data.posts
-            : Array.isArray(data.data)
-              ? data.data
-              : [];
-
-        setPosts(postsList);
-      } catch (error) {
-        console.error("Erro ao buscar posts:", error);
-        setPosts([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadPosts();
-  }, []);
-  useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const data = await postsService.getPosts();
-
-        const postsList = Array.isArray(data)
-          ? data
-          : Array.isArray(data.posts)
-            ? data.posts
-            : Array.isArray(data.data)
-              ? data.data
-              : [];
-
-        setPosts(postsList);
-      } catch (error) {
-        console.error("Erro ao buscar posts:", error);
-        setPosts([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadPosts();
-  }, []);
-  useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const data = await postsService.getPosts();
-
-        const postsList = Array.isArray(data)
-          ? data
-          : Array.isArray(data.posts)
-            ? data.posts
-            : Array.isArray(data.data)
-              ? data.data
-              : [];
-
-        setPosts(postsList);
-      } catch (error) {
-        console.error("Erro ao buscar posts:", error);
-        setPosts([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadPosts();
-  }, []);
-
-  useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const data = await postsService.getPosts();
-
-        const postsList = Array.isArray(data)
-          ? data
-          : Array.isArray(data.posts)
-            ? data.posts
-            : Array.isArray(data.data)
-              ? data.data
-              : [];
-
-        setPosts(postsList);
-      } catch (error) {
-        console.error("Erro ao buscar posts:", error);
-        setPosts([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadPosts();
-  }, []);
-  useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const data = await postsService.getPosts();
-
-        const postsList = Array.isArray(data)
-          ? data
-          : Array.isArray(data.posts)
-            ? data.posts
-            : Array.isArray(data.data)
-              ? data.data
-              : [];
-
-        setPosts(postsList);
-      } catch (error) {
-        console.error("Erro ao buscar posts:", error);
-        setPosts([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadPosts();
-  }, []);
-  useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const data = await postsService.getPosts();
-
-        const postsList = Array.isArray(data)
-          ? data
-          : Array.isArray(data.posts)
-            ? data.posts
-            : Array.isArray(data.data)
-              ? data.data
-              : [];
-
-        setPosts(postsList);
-      } catch (error) {
-        console.error("Erro ao buscar posts:", error);
-        setPosts([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadPosts();
-  }, []);
-  useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const data = await postsService.getPosts();
-
-        const postsList = Array.isArray(data)
-          ? data
-          : Array.isArray(data.posts)
-            ? data.posts
-            : Array.isArray(data.data)
-              ? data.data
-              : [];
-
-        setPosts(postsList);
-      } catch (error) {
-        console.error("Erro ao buscar posts:", error);
-        setPosts([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadPosts();
-  }, []);
-  useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const data = await postsService.getPosts();
-
-        const postsList = Array.isArray(data)
-          ? data
-          : Array.isArray(data.posts)
-            ? data.posts
-            : Array.isArray(data.data)
-              ? data.data
-              : [];
-
-        setPosts(postsList);
-      } catch (error) {
-        console.error("Erro ao buscar posts:", error);
-        setPosts([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadPosts();
-  }, []);
-  useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const data = await postsService.getPosts();
-
-        const postsList = Array.isArray(data)
-          ? data
-          : Array.isArray(data.posts)
-            ? data.posts
-            : Array.isArray(data.data)
-              ? data.data
-              : [];
-
-        setPosts(postsList);
-      } catch (error) {
-        console.error("Erro ao buscar posts:", error);
-        setPosts([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadPosts();
-  }, []);
-  useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const data = await postsService.getPosts();
-
-        const postsList = Array.isArray(data)
-          ? data
-          : Array.isArray(data.posts)
-            ? data.posts
-            : Array.isArray(data.data)
-              ? data.data
-              : [];
-
-        setPosts(postsList);
-      } catch (error) {
-        console.error("Erro ao buscar posts:", error);
-        setPosts([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadPosts();
-  }, []);
-  useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const data = await postsService.getPosts();
-
-        const postsList = Array.isArray(data)
-          ? data
-          : Array.isArray(data.posts)
-            ? data.posts
-            : Array.isArray(data.data)
-              ? data.data
-              : [];
-
-        setPosts(postsList);
-      } catch (error) {
-        console.error("Erro ao buscar posts:", error);
-        setPosts([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadPosts();
-  }, []);
-
-  useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const data = await postsService.getPosts();
-
-        const postsList = Array.isArray(data)
-          ? data
-          : Array.isArray(data.posts)
-            ? data.posts
-            : Array.isArray(data.data)
-              ? data.data
-              : [];
-
-        setPosts(postsList);
-      } catch (error) {
-        console.error("Erro ao buscar posts:", error);
-        setPosts([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadPosts();
-  }, []);
   useEffect(() => {
     const loadPosts = async () => {
       try {
@@ -521,9 +42,19 @@ export const HomePage = () => {
     return (
       post.title?.toLowerCase().includes(searchText) ||
       post.category?.toLowerCase().includes(searchText) ||
-      post.description?.toLowerCase().includes(searchText)
+      post.discipline?.toLowerCase().includes(searchText) ||
+      post.teacher?.toLowerCase().includes(searchText) ||
+      post.content?.toLowerCase().includes(searchText)
     );
   });
+
+  const handleViewPost = (postId: string) => {
+    const updatedViewedPosts = [...new Set([...viewedPosts, postId])];
+
+    localStorage.setItem("viewedPosts", JSON.stringify(updatedViewedPosts));
+
+    setViewedPosts(updatedViewedPosts);
+  };
 
   return (
     <main className="min-h-screen bg-sky-50 px-4 py-8 sm:px-6">
@@ -565,27 +96,42 @@ export const HomePage = () => {
             {filteredPosts.map((post) => (
               <article
                 key={post._id}
-                className="rounded-2xl border border-sky-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+                className="relative rounded-2xl border border-sky-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
               >
-                <span className="inline-block rounded-full bg-sky-100 px-3 py-1 text-xs font-semibold text-sky-600">
-                  {post.category}
-                </span>
+                {viewedPosts.includes(post._id) ? (
+                  <span className="absolute right-4 top-4 rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-500">
+                    Visualizado
+                  </span>
+                ) : (
+                  <span className="absolute right-4 top-4 rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-600">
+                    Novo
+                  </span>
+                )}
+
+                {post.category && (
+                  <span className="inline-block rounded-full bg-sky-100 px-3 py-1 text-xs font-semibold text-sky-600">
+                    {post.category}
+                  </span>
+                )}
 
                 <h2 className="mt-4 text-xl font-bold text-gray-900">
                   {post.title}
                 </h2>
 
                 <p className="mt-3 text-sm leading-6 text-gray-500">
-                  {post.description}
+                  {post.content
+                    ? `${post.content.slice(0, 120)}${post.content.length > 120 ? "..." : ""}`
+                    : "Sem descrição disponível."}
                 </p>
 
-                <div className="mt-5 flex items-center justify-between">
+                <div className="mt-5 flex items-center justify-between gap-3">
                   <span className="text-xs text-gray-400">
-                    Por {post.author}
+                    Autor: {post.teacher || post.author || "Não informado"}
                   </span>
 
                   <Link
                     to={`/posts/${post._id}`}
+                    onClick={() => handleViewPost(post._id)}
                     className="font-semibold text-sky-600 hover:text-sky-700"
                   >
                     Ler mais →

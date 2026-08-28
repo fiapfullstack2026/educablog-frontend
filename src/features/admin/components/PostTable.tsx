@@ -1,11 +1,9 @@
-// TODO: conectar ao useAdmin e implementar ações de editar/excluir
-
-import { Link } from 'react-router-dom'
-import type { Post } from '@/features/posts/types/post.types'
+import { Link } from "react-router-dom";
+import type { Post } from "@/features/posts/types/post.types";
 
 interface PostTableProps {
-  posts: Post[]
-  onDelete: (id: string) => void
+  posts: Post[];
+  onDelete: (id: string) => void;
 }
 
 export const PostTable = ({ posts, onDelete }: PostTableProps) => (
@@ -29,7 +27,7 @@ export const PostTable = ({ posts, onDelete }: PostTableProps) => (
             <td className="px-5 py-4 text-gray-500">{post.discipline}</td>
             <td className="px-5 py-4 text-gray-500">{post.teacher}</td>
             <td className="px-5 py-4 text-gray-400">
-              {new Date(post.createdAt).toLocaleDateString('pt-BR')}
+              {new Date(post.createdAt).toLocaleDateString("pt-BR")}
             </td>
             <td className="px-5 py-4 text-right">
               <div className="flex items-center justify-end gap-2">
@@ -58,4 +56,4 @@ export const PostTable = ({ posts, onDelete }: PostTableProps) => (
       </p>
     )}
   </div>
-)
+);
