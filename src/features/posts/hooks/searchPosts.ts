@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Post } from "../types/post.types";
 import { postsService } from "../services/posts.service";
 
-export const searchPosts = (query: string) => {
+export const useSearchPosts = (query: string) => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

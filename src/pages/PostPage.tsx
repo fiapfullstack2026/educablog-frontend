@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { postsService } from "@/features/posts/services/posts.service";
+import { Post } from "@/features/posts/types/post.types";
 
 import { useAuth } from "@/features/auth/hooks/useAuth";
 
@@ -12,7 +13,7 @@ export const PostPage = () => {
 
   const { user } = useAuth();
 
-  const [post, setPost] = useState<any>(null);
+  const [post, setPost] = useState<Post | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -124,10 +125,6 @@ export const PostPage = () => {
             </div>
           )}
         </div>
-
-        <p className="mt-4 text-lg leading-7 text-gray-500">
-          {post.description}
-        </p>
 
         <div className="my-6 border-t border-gray-100" />
 

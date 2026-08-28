@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { postsService } from "@/features/posts/services/posts.service";
+import { Post } from "@/features/posts/types/post.types";
 
 export const HomePage = () => {
   const [search, setSearch] = useState("");
-  const [posts, setPosts] = useState<any[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const [viewedPosts, setViewedPosts] = useState<string[]>(() => {

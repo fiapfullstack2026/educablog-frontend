@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { postsService } from "../services/posts.service";
 import type { Post } from "../types/post.types";
 
-export const getPosts = () => {
+export const useGetPosts = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

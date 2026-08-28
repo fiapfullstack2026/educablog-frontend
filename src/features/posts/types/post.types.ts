@@ -6,6 +6,8 @@ export interface Post {
   discipline: string
   createdAt: string
   updatedAt: string
+  category?: string
+  author?: string
 }
 
 export interface CreatePostRequest {
