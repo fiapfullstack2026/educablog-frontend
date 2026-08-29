@@ -92,7 +92,7 @@ export const PostPage = () => {
   return (
     <main className="min-h-screen bg-sky-50 px-4 py-8 sm:px-6">
       <article className="mx-auto max-w-3xl rounded-2xl border border-sky-100 bg-white p-6 shadow-sm sm:p-8">
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
             {post.category && (
               <span className="inline-block rounded-full bg-sky-100 px-3 py-1 text-xs font-semibold text-sky-600">

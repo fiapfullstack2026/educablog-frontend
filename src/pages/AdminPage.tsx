@@ -5,11 +5,11 @@ import { PostTable } from '@/features/admin/components/PostTable'
 
 export const AdminPage = () => (
   <div>
-    <div className="flex items-center justify-between mb-8">
+    <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <h1 className="text-2xl font-bold text-gray-900">Administração</h1>
       <Link
         to="/posts/new"
-        className="inline-flex items-center gap-2 bg-accent text-white text-sm font-medium px-4 py-2 rounded-md hover:opacity-90 transition-opacity"
+        className="inline-flex items-center gap-2 self-start bg-accent text-white text-sm font-medium px-4 py-2 rounded-md hover:opacity-90 transition-opacity"
       >
         + Novo post
       </Link>
