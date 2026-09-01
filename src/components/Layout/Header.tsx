@@ -1,37 +1,39 @@
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { Button } from "@/components/Button/Button";
 import { Link, useNavigate } from "react-router-dom";
+
 export const Header = () => {
   const { isAuthenticated, user, signOut } = useAuth();
   const navigate = useNavigate();
 
   return (
-    <header className="bg-primary text-white px-6 h-16 flex items-center justify-between shadow-md">
-      <Link to="/" className="text-xl font-bold tracking-tight">
-        Educa<span className="text-accent">Blog</span>
+    <header className="bg-green-primary text-white px-6 h-16 flex items-center justify-between">
+      <Link to="/home" className="text-xl font-medium tracking-tight">
+        <span className="text-cream-light">Educa</span>
+        <span className="text-green-light">Blog</span>
       </Link>
 
       <nav className="flex items-center gap-6 text-sm">
         <Link
           to="/home"
-          className="opacity-80 hover:opacity-100 transition-opacity"
+          className="text-white/75 hover:text-white transition-colors"
         >
-          Posts
+          Home
         </Link>
 
         {isAuthenticated && user?.isTeacher && (
           <>
             <Link
               to="/admin"
-              className="opacity-80 hover:opacity-100 transition-opacity"
+              className="text-white/75 hover:text-white transition-colors"
             >
-              Administração
+              Posts
             </Link>
             <Link
               to="/posts/new"
-              className="opacity-80 hover:opacity-100 transition-opacity"
+              className="text-white/75 hover:text-white transition-colors"
             >
-              Novo post
+              Criar post
             </Link>
           </>
         )}
@@ -43,14 +45,13 @@ export const Header = () => {
               signOut();
               navigate("/login");
             }}
-            className="border-white/30 text-white hover:bg-white/10"
           >
             Sair
           </Button>
         ) : (
           <Link
             to="/login"
-            className="opacity-80 hover:opacity-100 transition-opacity"
+            className="text-white/75 hover:text-white transition-colors"
           >
             Entrar
           </Link>

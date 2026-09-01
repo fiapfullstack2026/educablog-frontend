@@ -4,6 +4,7 @@ import { isAxiosError } from "axios";
 
 import { Input } from "@/components/Input/Input";
 import { Button } from "@/components/Button/Button";
+import { Feedback } from "@/components/Feedback/Feedback";
 
 import { authService } from "../services/auth.service";
 import { useAuth } from "../hooks/useAuth";
@@ -31,60 +32,51 @@ export const LoginForm = () => {
     setIsLoading(true);
 
     try {
-      console.log("1 - Enviando login...");
-
-      const response = await authService.signIn({
-        username,
-        password,
-      });
-
-      console.log("2 - Backend respondeu:", response);
-
+      const response = await authService.signIn({ username, password });
       const user = decodeUserFromToken(response.token);
 
-      console.log("3 - Usuário decodificado:", user);
-
       signIn(response.token, user);
-
-      console.log("4 - SignIn executado");
-
       navigate("/home");
-
-      console.log("5 - Navegou");
     } catch (err) {
-      console.error("ERRO:", err);
-
       const message = isAxiosError(err)
         ? (err.response?.data?.message ?? "Usuário ou senha inválidos")
         : "Não foi possível fazer login";
 
       setError(message);
     } finally {
-      console.log("6 - Finalizando loading");
       setIsLoading(false);
     }
   };
 
   return (
     <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
-      <Input
-        id="username"
-        label="Usuário"
-        placeholder="Digite seu usuário"
-        type="text"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
+      <div
+        className={`flex flex-col gap-5 transition-opacity ${
+          isLoading ? "opacity-50" : ""
+        }`}
+      >
+        <Input
+          id="username"
+          label="Usuário"
+          placeholder="Digite seu usuário"
+          type="text"
+          value={username}
+          disabled={isLoading}
+          onChange={(e) => setUsername(e.target.value)}
+        />
 
-      <Input
-        id="password"
-        label="Senha"
-        placeholder="Digite sua senha"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        error={error || undefined}
-      />
+        <Input
+          id="password"
+          label="Senha"
+          placeholder="Digite sua senha"
+          type="password"
+          value={password}
+          disabled={isLoading}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </div>
+
+      {error && <Feedback variant="error">{error}</Feedback>}
 
       <Button type="submit" className="w-full" isLoading={isLoading}>
         Entrar

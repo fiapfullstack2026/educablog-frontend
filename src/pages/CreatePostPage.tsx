@@ -29,7 +29,15 @@ export const CreatePostPage = () => {
 
   return (
     <div>
-      <h1 className="mb-8 text-2xl font-bold text-gray-900">Novo post</h1>
+      <button
+        type="button"
+        onClick={() => navigate(-1)}
+        className="mb-4 font-medium text-blue-primary hover:opacity-80"
+      >
+        ← Voltar
+      </button>
+
+      <h1 className="mb-8 text-2xl font-medium text-text-primary">Novo post</h1>
 
       <PostForm onSubmit={handleSubmit} isLoading={isLoading} />
     </div>
