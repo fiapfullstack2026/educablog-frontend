@@ -1,7 +1,11 @@
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 
 import type { CreatePostRequest } from "../types/post.types";
 import { DISCIPLINE_LIST } from "../constants/disciplines";
+import {
+  RichTextEditor,
+  type RichTextEditorHandle,
+} from "./RichTextEditor";
 
 import { Input } from "@/components/Input/Input";
 import { Button } from "@/components/Button/Button";
@@ -22,7 +26,8 @@ export const PostForm = ({
   const [title, setTitle] = useState(initialValues?.title ?? "");
   const [discipline, setDiscipline] = useState(initialValues?.discipline ?? "");
   const [teacher, setTeacher] = useState(initialValues?.teacher ?? "");
-  const [content, setContent] = useState(initialValues?.content ?? "");
+
+  const editorRef = useRef<RichTextEditorHandle>(null);
 
   const [errors, setErrors] = useState<FieldErrors>({});
 
@@ -34,13 +39,13 @@ export const PostForm = ({
       return next;
     });
 
-  const validate = (): FieldErrors => {
+  const validate = (contentIsEmpty: boolean): FieldErrors => {
     const next: FieldErrors = {};
 
     if (!title.trim()) next.title = "Informe o título do post.";
     if (!discipline) next.discipline = "Selecione uma disciplina.";
     if (!teacher.trim()) next.teacher = "Informe o(a) professor(a).";
-    if (!content.trim()) next.content = "Escreva o conteúdo do post.";
+    if (contentIsEmpty) next.content = "Escreva o conteúdo do post.";
 
     return next;
   };
@@ -48,7 +53,11 @@ export const PostForm = ({
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const validationErrors = validate();
+    const html = editorRef.current?.getHTML() ?? "";
+    const contentIsEmpty =
+      (editorRef.current?.getPlainText() ?? "").trim().length === 0;
+
+    const validationErrors = validate(contentIsEmpty);
     setErrors(validationErrors);
     if (Object.keys(validationErrors).length > 0) return;
 
@@ -56,7 +65,7 @@ export const PostForm = ({
       title: title.trim(),
       discipline,
       teacher: teacher.trim(),
-      content: content.trim(),
+      content: html,
     });
   };
 
@@ -125,27 +134,13 @@ export const PostForm = ({
       />
 
       <div className="flex flex-col gap-1">
-        <label
-          htmlFor="content"
-          className="text-sm font-medium text-text-secondary"
-        >
-          Conteúdo
-        </label>
+        <span className="text-sm font-medium text-text-secondary">Conteúdo</span>
 
-        <textarea
-          id="content"
-          value={content}
-          onChange={(event) => {
-            setContent(event.target.value);
-            clearError("content");
-          }}
-          rows={8}
-          placeholder="Escreva o conteúdo da aula..."
-          className={`w-full resize-y rounded border px-3 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:border-[1.5px] focus:outline-none ${
-            errors.content
-              ? "border-danger bg-danger-bg focus:border-danger"
-              : "border-green-light bg-cream focus:border-green-primary"
-          }`}
+        <RichTextEditor
+          ref={editorRef}
+          initialHTML={initialValues?.content}
+          hasError={!!errors.content}
+          onInput={() => clearError("content")}
         />
 
         {errors.content && (

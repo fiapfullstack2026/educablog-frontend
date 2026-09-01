@@ -5,6 +5,7 @@ import { PostCard } from "@/features/posts/components/PostCard";
 import { SearchBar } from "@/features/posts/components/SearchBar";
 import { DisciplineFilter } from "@/features/posts/components/DisciplineFilter";
 import { getDiscipline } from "@/features/posts/constants/disciplines";
+import { htmlToPlainText } from "@/features/posts/utils/htmlToPlainText";
 
 export const HomePage = () => {
   const [search, setSearch] = useState("");
@@ -49,7 +50,7 @@ export const HomePage = () => {
         post.category?.toLowerCase().includes(searchText) ||
         post.discipline?.toLowerCase().includes(searchText) ||
         post.teacher?.toLowerCase().includes(searchText) ||
-        post.content?.toLowerCase().includes(searchText);
+        htmlToPlainText(post.content).toLowerCase().includes(searchText);
 
       const matchesDiscipline =
         !discipline || getDiscipline(post.discipline).label === discipline;
