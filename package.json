@@ -10,6 +10,9 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
+    "@blocknote/ariakit": "^0.54.0",
+    "@blocknote/core": "^0.54.0",
+    "@blocknote/react": "^0.54.0",
     "@reduxjs/toolkit": "^2.12.0",
     "@tabler/icons-react": "^3.46.0",
     "axios": "^1.7.2",

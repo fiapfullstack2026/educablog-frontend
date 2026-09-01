@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import type { Post } from "../types/post.types";
 import { getDiscipline } from "../constants/disciplines";
 import { DisciplineBadge } from "./DisciplineBadge";
+import { htmlToPlainText } from "../utils/htmlToPlainText";
 
 interface PostCardProps {
   post: Post;
@@ -12,8 +13,9 @@ interface PostCardProps {
 
 export const PostCard = ({ post, viewed = false, onView }: PostCardProps) => {
   const d = getDiscipline(post.discipline);
-  const summary = post.content
-    ? `${post.content.slice(0, 120)}${post.content.length > 120 ? "..." : ""}`
+  const text = htmlToPlainText(post.content);
+  const summary = text
+    ? `${text.slice(0, 120)}${text.length > 120 ? "..." : ""}`
     : "Sem descrição disponível.";
 
   return (

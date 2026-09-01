@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { postsService } from "@/features/posts/services/posts.service";
 import { Post } from "@/features/posts/types/post.types";
 import { DisciplineBadge } from "@/features/posts/components/DisciplineBadge";
+import { RichTextEditor } from "@/features/posts/components/RichTextEditor";
 
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { Button } from "@/components/Button/Button";
@@ -146,9 +147,7 @@ export const PostPage = () => {
 
         <div className="my-6 border-t border-green-light/60" />
 
-        <div className="whitespace-pre-line text-base leading-8 text-text-primary">
-          {post.content}
-        </div>
+        <RichTextEditor initialHTML={post.content} editable={false} />
 
         <div className="mt-8">
           <Link
