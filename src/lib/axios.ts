@@ -21,7 +21,12 @@ api.interceptors.response.use(
   (response) => response,
 
   (error) => {
-    if (error.response?.status === 401) {
+    const requestUrl: string = error.config?.url ?? "";
+    const isAuthRequest = /\/user\/(signin|register)/.test(requestUrl);
+
+    // 401 numa rota autenticada = sessão expirada -> desloga e volta pro login.
+    // 401 no próprio login/cadastro = credenciais inválidas -> deixa a tela tratar.
+    if (error.response?.status === 401 && !isAuthRequest) {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
 

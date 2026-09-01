@@ -4,8 +4,11 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { postsService } from "@/features/posts/services/posts.service";
 import { Post } from "@/features/posts/types/post.types";
+import { DisciplineBadge } from "@/features/posts/components/DisciplineBadge";
 
 import { useAuth } from "@/features/auth/hooks/useAuth";
+import { Button } from "@/components/Button/Button";
+import { Feedback } from "@/components/Feedback/Feedback";
 
 export const PostPage = () => {
   const { id } = useParams();
@@ -16,6 +19,7 @@ export const PostPage = () => {
   const [post, setPost] = useState<Post | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const [deleteError, setDeleteError] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
@@ -24,12 +28,8 @@ export const PostPage = () => {
 
       try {
         const response = await postsService.getPostById(id);
-
-        console.log("Post recebido:", response);
-
         setPost(response.data ?? response);
-      } catch (error) {
-        console.error("Erro ao buscar post:", error);
+      } catch {
         setError("Não foi possível carregar o post.");
       } finally {
         setIsLoading(false);
@@ -50,13 +50,13 @@ export const PostPage = () => {
 
     try {
       setIsDeleting(true);
+      setDeleteError("");
 
       await postsService.delete(id);
 
       navigate("/admin");
-    } catch (error) {
-      console.error("Erro ao excluir post:", error);
-      alert("Não foi possível excluir o post.");
+    } catch {
+      setDeleteError("Não foi possível excluir o post.");
     } finally {
       setIsDeleting(false);
     }
@@ -64,9 +64,9 @@ export const PostPage = () => {
 
   if (isLoading) {
     return (
-      <main className="min-h-screen bg-sky-50 px-4 py-8">
-        <div className="mx-auto max-w-3xl rounded-2xl bg-white p-8 text-center shadow-sm">
-          <p className="text-gray-500">Carregando post...</p>
+      <main className="min-h-screen bg-cream px-4 py-8">
+        <div className="mx-auto max-w-3xl rounded-card border-hair border-green-light bg-white p-8 text-center">
+          <p className="text-text-secondary">Carregando post...</p>
         </div>
       </main>
     );
@@ -74,13 +74,12 @@ export const PostPage = () => {
 
   if (error || !post) {
     return (
-      <main className="min-h-screen bg-sky-50 px-4 py-8">
-        <div className="mx-auto max-w-3xl rounded-2xl bg-white p-8 text-center shadow-sm">
-          <p className="text-red-500">{error || "Post não encontrado."}</p>
-
+      <main className="min-h-screen bg-cream px-4 py-8">
+        <div className="mx-auto max-w-3xl space-y-4">
+          <Feedback variant="error">{error || "Post não encontrado."}</Feedback>
           <Link
             to="/home"
-            className="mt-4 inline-block font-semibold text-sky-600"
+            className="inline-block font-medium text-blue-primary"
           >
             ← Voltar para posts
           </Link>
@@ -90,72 +89,71 @@ export const PostPage = () => {
   }
 
   return (
-    <main className="min-h-screen bg-sky-50 px-4 py-8 sm:px-6">
-      <article className="mx-auto max-w-3xl rounded-2xl border border-sky-100 bg-white p-6 shadow-sm sm:p-8">
+    <main className="min-h-screen bg-cream px-4 py-8 sm:px-6">
+      <article className="mx-auto max-w-3xl rounded-card border-hair border-green-light bg-white p-6 sm:p-8">
         <div className="flex items-start justify-between gap-4">
           <div>
-            {post.category && (
-              <span className="inline-block rounded-full bg-sky-100 px-3 py-1 text-xs font-semibold text-sky-600">
-                {post.category}
-              </span>
-            )}
+            <DisciplineBadge discipline={post.discipline} />
 
-            <h1 className="mt-4 text-3xl font-bold text-gray-900">
+            <h1 className="mt-4 text-3xl font-medium text-text-primary">
               {post.title}
             </h1>
           </div>
 
           {user?.isTeacher && (
             <div className="flex gap-3">
-              <Link
-                to={`/posts/${post._id}/edit`}
-                className="rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
-              >
-                Editar
+              <Link to={`/posts/${post._id}/edit`}>
+                <Button variant="outline-green">Editar</Button>
               </Link>
 
-              <button
-                type="button"
+              <Button
+                variant="danger"
                 onClick={handleDelete}
-                disabled={isDeleting}
-                className="rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold text-white hover:bg-red-600 disabled:opacity-50"
+                isLoading={isDeleting}
               >
-                {isDeleting ? "Excluindo..." : "Excluir"}
-              </button>
+                Excluir
+              </Button>
             </div>
           )}
         </div>
 
-        <div className="my-6 border-t border-gray-100" />
+        {deleteError && (
+          <div className="mt-4">
+            <Feedback variant="error">{deleteError}</Feedback>
+          </div>
+        )}
 
-        <div className="text-sm text-gray-500">
+        <div className="my-6 border-t border-green-light/60" />
+
+        <div className="text-sm text-text-secondary">
           <p>
-            <strong>Disciplina:</strong> {post.discipline || "Não informado"}
+            <strong className="font-medium">Disciplina:</strong>{" "}
+            {post.discipline || "Não informado"}
           </p>
 
           <p className="mt-2">
-            <strong>Professor:</strong>{" "}
+            <strong className="font-medium">Professor:</strong>{" "}
             {post.teacher || post.author || "Não informado"}
           </p>
 
           <p className="mt-2">
-            <strong>Publicado em:</strong>{" "}
+            <strong className="font-medium">Publicado em:</strong>{" "}
             {post.createdAt
               ? new Date(post.createdAt).toLocaleDateString("pt-BR")
               : "Não informado"}
           </p>
         </div>
 
-        <div className="my-6 border-t border-gray-100" />
+        <div className="my-6 border-t border-green-light/60" />
 
-        <div className="whitespace-pre-line text-base leading-8 text-gray-700">
+        <div className="whitespace-pre-line text-base leading-8 text-text-primary">
           {post.content}
         </div>
 
         <div className="mt-8">
           <Link
             to="/home"
-            className="font-semibold text-sky-600 hover:text-sky-700"
+            className="font-medium text-blue-primary hover:opacity-80"
           >
             ← Voltar
           </Link>

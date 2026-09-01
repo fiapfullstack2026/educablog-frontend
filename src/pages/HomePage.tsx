@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
 import { postsService } from "@/features/posts/services/posts.service";
 import { Post } from "@/features/posts/types/post.types";
+import { PostCard } from "@/features/posts/components/PostCard";
+import { SearchBar } from "@/features/posts/components/SearchBar";
+import { DisciplineFilter } from "@/features/posts/components/DisciplineFilter";
+import { getDiscipline } from "@/features/posts/constants/disciplines";
 
 export const HomePage = () => {
   const [search, setSearch] = useState("");
+  const [discipline, setDiscipline] = useState<string | null>(null);
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -26,8 +30,7 @@ export const HomePage = () => {
               : [];
 
         setPosts(postsList);
-      } catch (error) {
-        console.error("Erro ao buscar posts:", error);
+      } catch {
         setPosts([]);
       } finally {
         setIsLoading(false);
@@ -37,17 +40,23 @@ export const HomePage = () => {
     loadPosts();
   }, []);
 
-  const filteredPosts = posts.filter((post) => {
+  const filteredPosts = useMemo(() => {
     const searchText = search.toLowerCase();
 
-    return (
-      post.title?.toLowerCase().includes(searchText) ||
-      post.category?.toLowerCase().includes(searchText) ||
-      post.discipline?.toLowerCase().includes(searchText) ||
-      post.teacher?.toLowerCase().includes(searchText) ||
-      post.content?.toLowerCase().includes(searchText)
-    );
-  });
+    return posts.filter((post) => {
+      const matchesSearch =
+        post.title?.toLowerCase().includes(searchText) ||
+        post.category?.toLowerCase().includes(searchText) ||
+        post.discipline?.toLowerCase().includes(searchText) ||
+        post.teacher?.toLowerCase().includes(searchText) ||
+        post.content?.toLowerCase().includes(searchText);
+
+      const matchesDiscipline =
+        !discipline || getDiscipline(post.discipline).label === discipline;
+
+      return matchesSearch && matchesDiscipline;
+    });
+  }, [posts, search, discipline]);
 
   const handleViewPost = (postId: string) => {
     const updatedViewedPosts = [...new Set([...viewedPosts, postId])];
@@ -58,87 +67,43 @@ export const HomePage = () => {
   };
 
   return (
-    <main className="min-h-screen bg-sky-50 px-4 py-8 sm:px-6">
-      <div className="mx-auto w-full max-w-3xl">
+    <main className="min-h-screen bg-cream px-4 py-8 sm:px-6">
+      <div className="mx-auto w-full max-w-5xl">
         <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900">Seja bem-vindo</h1>
+          <h1 className="text-3xl font-medium text-text-primary">
+            Seja bem-vindo
+          </h1>
 
-          <p className="mt-1 text-gray-500">
+          <p className="mt-1 text-text-secondary">
             Confira os últimos conteúdos publicados.
           </p>
         </div>
 
-        <div className="mb-8">
-          <div className="relative w-full max-w-xl">
-            <input
-              type="text"
-              placeholder="Pesquisar posts..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-xl border border-sky-100 bg-white px-4 py-3 pr-12 text-sm text-gray-700 shadow-sm outline-none transition placeholder:text-gray-400 focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
-            />
+        <div className="mb-6">
+          <SearchBar onSearch={setSearch} value={search} />
+        </div>
 
-            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
-              🔍
-            </span>
-          </div>
+        <div className="mb-8">
+          <DisciplineFilter selected={discipline} onSelect={setDiscipline} />
         </div>
 
         {isLoading ? (
-          <div className="rounded-2xl border border-sky-100 bg-white p-8 text-center shadow-sm">
-            <p className="text-gray-500">Carregando posts...</p>
+          <div className="rounded-card border-hair border-green-light bg-white p-8 text-center">
+            <p className="text-text-secondary">Carregando posts...</p>
           </div>
         ) : filteredPosts.length === 0 ? (
-          <div className="rounded-2xl border border-sky-100 bg-white p-8 text-center shadow-sm">
-            <p className="text-gray-500">Nenhum post encontrado.</p>
+          <div className="rounded-card border-hair border-green-light bg-white p-8 text-center">
+            <p className="text-text-secondary">Nenhum post encontrado.</p>
           </div>
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {filteredPosts.map((post) => (
-              <article
+              <PostCard
                 key={post._id}
-                className="relative rounded-2xl border border-sky-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
-              >
-                {viewedPosts.includes(post._id) ? (
-                  <span className="absolute right-4 top-4 rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-500">
-                    Visualizado
-                  </span>
-                ) : (
-                  <span className="absolute right-4 top-4 rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-600">
-                    Novo
-                  </span>
-                )}
-
-                {post.category && (
-                  <span className="inline-block rounded-full bg-sky-100 px-3 py-1 text-xs font-semibold text-sky-600">
-                    {post.category}
-                  </span>
-                )}
-
-                <h2 className="mt-4 text-xl font-bold text-gray-900">
-                  {post.title}
-                </h2>
-
-                <p className="mt-3 text-sm leading-6 text-gray-500">
-                  {post.content
-                    ? `${post.content.slice(0, 120)}${post.content.length > 120 ? "..." : ""}`
-                    : "Sem descrição disponível."}
-                </p>
-
-                <div className="mt-5 flex items-center justify-between gap-3">
-                  <span className="text-xs text-gray-400">
-                    Autor: {post.teacher || post.author || "Não informado"}
-                  </span>
-
-                  <Link
-                    to={`/posts/${post._id}`}
-                    onClick={() => handleViewPost(post._id)}
-                    className="font-semibold text-sky-600 hover:text-sky-700"
-                  >
-                    Ler mais →
-                  </Link>
-                </div>
-              </article>
+                post={post}
+                viewed={viewedPosts.includes(post._id)}
+                onView={handleViewPost}
+              />
             ))}
           </div>
         )}

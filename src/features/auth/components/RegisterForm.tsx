@@ -4,6 +4,7 @@ import { isAxiosError } from "axios";
 
 import { Input } from "@/components/Input/Input";
 import { Button } from "@/components/Button/Button";
+import { Feedback } from "@/components/Feedback/Feedback";
 import { authService } from "../services/auth.service";
 
 export const RegisterForm = () => {
@@ -34,12 +35,7 @@ export const RegisterForm = () => {
     setIsLoading(true);
 
     try {
-      await authService.register({
-        username,
-        password,
-        isTeacher,
-      });
-
+      await authService.register({ username, password, isTeacher });
       navigate("/login");
     } catch (err) {
       const message = isAxiosError(err)
@@ -54,57 +50,67 @@ export const RegisterForm = () => {
 
   return (
     <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
-      <Input
-        id="username"
-        label="Usuário"
-        placeholder="Digite seu usuário"
-        type="text"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
+      <div
+        className={`flex flex-col gap-5 transition-opacity ${
+          isLoading ? "opacity-50" : ""
+        }`}
+      >
+        <Input
+          id="username"
+          label="Usuário"
+          placeholder="Digite seu usuário"
+          type="text"
+          value={username}
+          disabled={isLoading}
+          onChange={(e) => setUsername(e.target.value)}
+        />
 
-      <Input
-        id="password"
-        label="Senha"
-        placeholder="Digite sua senha"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+        <Input
+          id="password"
+          label="Senha"
+          placeholder="Digite sua senha"
+          type="password"
+          value={password}
+          disabled={isLoading}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-      <Input
-        id="confirmPassword"
-        label="Confirmar senha"
-        placeholder="Digite a senha novamente"
-        type="password"
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
-        error={error || undefined}
-      />
+        <Input
+          id="confirmPassword"
+          label="Confirmar senha"
+          placeholder="Digite a senha novamente"
+          type="password"
+          value={confirmPassword}
+          disabled={isLoading}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
 
-      <div className="flex items-center gap-6 text-sm text-gray-600">
-        <label className="flex items-center gap-2">
-          <input
-            type="radio"
-            name="userType"
-            checked={!isTeacher}
-            onChange={() => setIsTeacher(false)}
-            className="h-4 w-4"
-          />
-          Sou aluno
-        </label>
+        <div className="flex items-center gap-6 text-sm text-text-secondary">
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              name="userType"
+              checked={!isTeacher}
+              onChange={() => setIsTeacher(false)}
+              className="h-4 w-4 accent-green-primary"
+            />
+            Sou aluno
+          </label>
 
-        <label className="flex items-center gap-2">
-          <input
-            type="radio"
-            name="userType"
-            checked={isTeacher}
-            onChange={() => setIsTeacher(true)}
-            className="h-4 w-4"
-          />
-          Sou professor
-        </label>
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              name="userType"
+              checked={isTeacher}
+              onChange={() => setIsTeacher(true)}
+              className="h-4 w-4 accent-green-primary"
+            />
+            Sou professor
+          </label>
+        </div>
       </div>
+
+      {error && <Feedback variant="error">{error}</Feedback>}
 
       <Button type="submit" className="w-full" isLoading={isLoading}>
         Criar acesso
