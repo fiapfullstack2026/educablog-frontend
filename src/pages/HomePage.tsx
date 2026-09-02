@@ -7,10 +7,6 @@ export const HomePage = () => {
   const [posts, setPosts] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [viewedPosts, setViewedPosts] = useState<string[]>(() => {
-    return JSON.parse(localStorage.getItem("viewedPosts") || "[]");
-  });
-
   useEffect(() => {
     const loadPosts = async () => {
       try {
@@ -47,14 +43,6 @@ export const HomePage = () => {
       post.content?.toLowerCase().includes(searchText)
     );
   });
-
-  const handleViewPost = (postId: string) => {
-    const updatedViewedPosts = [...new Set([...viewedPosts, postId])];
-
-    localStorage.setItem("viewedPosts", JSON.stringify(updatedViewedPosts));
-
-    setViewedPosts(updatedViewedPosts);
-  };
 
   return (
     <main className="min-h-screen bg-sky-50 px-4 py-8 sm:px-6">
@@ -98,16 +86,6 @@ export const HomePage = () => {
                 key={post._id}
                 className="relative rounded-2xl border border-sky-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
               >
-                {viewedPosts.includes(post._id) ? (
-                  <span className="absolute right-4 top-4 rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-500">
-                    Visualizado
-                  </span>
-                ) : (
-                  <span className="absolute right-4 top-4 rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-600">
-                    Novo
-                  </span>
-                )}
-
                 {post.category && (
                   <span className="inline-block rounded-full bg-sky-100 px-3 py-1 text-xs font-semibold text-sky-600">
                     {post.category}
@@ -120,7 +98,9 @@ export const HomePage = () => {
 
                 <p className="mt-3 text-sm leading-6 text-gray-500">
                   {post.content
-                    ? `${post.content.slice(0, 120)}${post.content.length > 120 ? "..." : ""}`
+                    ? `${post.content.slice(0, 120)}${
+                        post.content.length > 120 ? "..." : ""
+                      }`
                     : "Sem descrição disponível."}
                 </p>
 
@@ -131,7 +111,6 @@ export const HomePage = () => {
 
                   <Link
                     to={`/posts/${post._id}`}
-                    onClick={() => handleViewPost(post._id)}
                     className="font-semibold text-sky-600 hover:text-sky-700"
                   >
                     Ler mais →
