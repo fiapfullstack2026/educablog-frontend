@@ -21,7 +21,7 @@ export const SearchBar = ({
   }
 
   return (
-    <div className="relative w-full max-w-xl">
+    <div className="relative w-full">
       <IconSearch
         size={18}
         stroke={1.5}

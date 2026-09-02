@@ -18,6 +18,16 @@ interface PostFormProps {
 
 type FieldErrors = Partial<Record<keyof CreatePostRequest, string>>;
 
+const TEACHER_TITLES = ["Prof.", "Profa."] as const;
+
+/** Separa "Prof." / "Profa." do nome já gravado em `teacher`. */
+const parseTeacher = (full = "") => {
+  const match = full.match(/^(Profa?\.)\s*(.*)$/);
+  return match
+    ? { title: match[1], name: match[2] }
+    : { title: TEACHER_TITLES[0], name: full };
+};
+
 export const PostForm = ({
   initialValues,
   onSubmit,
@@ -25,7 +35,12 @@ export const PostForm = ({
 }: PostFormProps) => {
   const [title, setTitle] = useState(initialValues?.title ?? "");
   const [discipline, setDiscipline] = useState(initialValues?.discipline ?? "");
-  const [teacher, setTeacher] = useState(initialValues?.teacher ?? "");
+  const [teacherTitle, setTeacherTitle] = useState(
+    parseTeacher(initialValues?.teacher).title,
+  );
+  const [teacher, setTeacher] = useState(
+    parseTeacher(initialValues?.teacher).name,
+  );
 
   const editorRef = useRef<RichTextEditorHandle>(null);
 
@@ -64,7 +79,7 @@ export const PostForm = ({
     await onSubmit({
       title: title.trim(),
       discipline,
-      teacher: teacher.trim(),
+      teacher: `${teacherTitle} ${teacher.trim()}`,
       content: html,
     });
   };
@@ -121,17 +136,52 @@ export const PostForm = ({
         )}
       </div>
 
-      <Input
-        id="teacher"
-        label="Professor(a)"
-        placeholder="Nome do professor(a)"
-        value={teacher}
-        error={errors.teacher}
-        onChange={(event) => {
-          setTeacher(event.target.value);
-          clearError("teacher");
-        }}
-      />
+      <div className="flex flex-col gap-1">
+        <label
+          htmlFor="teacher"
+          className="text-sm font-medium text-text-secondary"
+        >
+          Autor(a)
+        </label>
+
+        <div className="flex gap-3">
+          <select
+            aria-label="Tratamento"
+            value={teacherTitle}
+            onChange={(event) => setTeacherTitle(event.target.value)}
+            className={`shrink-0 rounded border px-3 py-2.5 text-sm text-text-primary focus:border-[1.5px] focus:outline-none ${
+              errors.teacher
+                ? "border-danger bg-danger-bg focus:border-danger"
+                : "border-green-light bg-cream focus:border-green-primary"
+            }`}
+          >
+            {TEACHER_TITLES.map((t) => (
+              <option key={t} value={t}>
+                {t}
+              </option>
+            ))}
+          </select>
+
+          <input
+            id="teacher"
+            placeholder="Nome do professor(a)"
+            value={teacher}
+            onChange={(event) => {
+              setTeacher(event.target.value);
+              clearError("teacher");
+            }}
+            className={`w-full rounded border px-3 py-2.5 text-sm text-text-primary placeholder:text-text-muted transition-colors duration-150 focus:border-[1.5px] focus:outline-none ${
+              errors.teacher
+                ? "border-danger bg-danger-bg focus:border-danger"
+                : "border-green-light bg-cream focus:border-green-primary"
+            }`}
+          />
+        </div>
+
+        {errors.teacher && (
+          <span className="text-xs text-danger-text">{errors.teacher}</span>
+        )}
+      </div>
 
       <div className="flex flex-col gap-1">
         <span className="text-sm font-medium text-text-secondary">Conteúdo</span>

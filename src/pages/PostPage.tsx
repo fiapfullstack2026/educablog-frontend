@@ -133,7 +133,7 @@ export const PostPage = () => {
           </p>
 
           <p className="mt-2">
-            <strong className="font-medium">Professor:</strong>{" "}
+            <strong className="font-medium">Autor(a):</strong>{" "}
             {post.teacher || post.author || "Não informado"}
           </p>
 

@@ -36,9 +36,9 @@ export const PostTable = ({ posts, onDelete }: PostTableProps) => {
             <tr>
               <th className="px-5 py-3 font-medium">Título</th>
               <th className="px-5 py-3 font-medium">Disciplina</th>
-              <th className="px-5 py-3 font-medium">Professor(a)</th>
+              <th className="px-5 py-3 font-medium">Autor(a)</th>
               <th className="px-5 py-3 font-medium">Data</th>
-              <th className="px-5 py-3 text-right font-medium">Ações</th>
+              <th className="px-5 py-3 text-center font-medium">Ações</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-green-light/50 bg-white">

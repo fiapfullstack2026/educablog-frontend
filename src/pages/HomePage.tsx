@@ -71,8 +71,8 @@ export const HomePage = () => {
     <main className="min-h-screen bg-cream px-4 py-8 sm:px-6">
       <div className="mx-auto w-full max-w-5xl">
         <div className="mb-6">
-          <h1 className="text-3xl font-medium text-text-primary">
-            Seja bem-vindo
+          <h1 className="text-3xl font-medium text-green-primary">
+            Seja bem-vindo(a)!
           </h1>
 
           <p className="mt-1 text-text-secondary">
