@@ -3,7 +3,7 @@ import { Button } from "@/components/Button/Button";
 import { Link, useNavigate } from "react-router-dom";
 
 const roleStyles = {
-  professor: "bg-teal-200 text-amber-900",
+  professor: "bg-teal-200 text-sky-900",
   aluno: "bg-cyan-200 text-sky-900",
 };
 
