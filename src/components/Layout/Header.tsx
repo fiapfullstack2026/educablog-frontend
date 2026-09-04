@@ -7,7 +7,7 @@ const roleStyles = {
   aluno: "bg-cyan-200 text-sky-900",
 };
 
-function getInitials(name: string) {
+function getInitials(name?: string) {
   const parts = String(name || "")
     .trim()
     .split(/\s+/)
