@@ -24,7 +24,7 @@ export const AdminPage = () => {
   return (
     <div>
       <div className="mb-8 flex items-center justify-between">
-        <h1 className="text-2xl font-medium text-text-primary">Administração</h1>
+        <h1 className="text-2xl font-medium text-text-primary">Gerenciar Posts</h1>
         <Link to="/posts/new">
           <Button variant="primary"><IconCirclePlus stroke={2} /> Criar Post</Button>
         </Link>
