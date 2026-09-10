@@ -6,12 +6,9 @@ import { htmlToPlainText } from "../utils/htmlToPlainText";
 
 interface PostCardProps {
   post: Post;
-  /** já visualizado pelo usuário (badge "Visualizado" x "Novo") */
-  viewed?: boolean;
-  onView?: (id: string) => void;
 }
 
-export const PostCard = ({ post, viewed = false, onView }: PostCardProps) => {
+export const PostCard = ({ post }: PostCardProps) => {
   const d = getDiscipline(post.discipline);
   const text = htmlToPlainText(post.content);
   const summary = text
@@ -19,11 +16,7 @@ export const PostCard = ({ post, viewed = false, onView }: PostCardProps) => {
     : "Sem descrição disponível.";
 
   return (
-    <Link
-      to={`/posts/${post._id}`}
-      onClick={() => onView?.(post._id)}
-      className="block group"
-    >
+    <Link to={`/posts/${post._id}`} className="block group">
       <article
         className="relative h-full bg-white rounded-card border-hair p-6 transition-colors duration-200 hover:border-green-mid"
         style={{
@@ -32,16 +25,6 @@ export const PostCard = ({ post, viewed = false, onView }: PostCardProps) => {
           borderTopWidth: 3,
         }}
       >
-        <span
-          className={`absolute right-4 top-4 rounded-full px-3 py-1 text-xs font-medium ${
-            viewed
-              ? "bg-surface-1 text-text-muted"
-              : "bg-green-pale text-green-primary"
-          }`}
-        >
-          {viewed ? "Visualizado" : "Novo"}
-        </span>
-
         <DisciplineBadge discipline={post.discipline} />
 
         <h2 className="mt-4 text-lg font-medium text-text-primary line-clamp-2">

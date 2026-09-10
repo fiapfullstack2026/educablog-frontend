@@ -13,10 +13,6 @@ export const HomePage = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [viewedPosts, setViewedPosts] = useState<string[]>(() => {
-    return JSON.parse(localStorage.getItem("viewedPosts") || "[]");
-  });
-
   useEffect(() => {
     const loadPosts = async () => {
       try {
@@ -59,14 +55,6 @@ export const HomePage = () => {
     });
   }, [posts, search, discipline]);
 
-  const handleViewPost = (postId: string) => {
-    const updatedViewedPosts = [...new Set([...viewedPosts, postId])];
-
-    localStorage.setItem("viewedPosts", JSON.stringify(updatedViewedPosts));
-
-    setViewedPosts(updatedViewedPosts);
-  };
-
   return (
     <main className="min-h-screen bg-cream px-4 py-8 sm:px-6">
       <div className="mx-auto w-full max-w-5xl">
@@ -99,12 +87,7 @@ export const HomePage = () => {
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {filteredPosts.map((post) => (
-              <PostCard
-                key={post._id}
-                post={post}
-                viewed={viewedPosts.includes(post._id)}
-                onView={handleViewPost}
-              />
+              <PostCard key={post._id} post={post} />
             ))}
           </div>
         )}
