@@ -1,40 +1,51 @@
 import { Link } from "react-router-dom";
 import type { Post } from "../types/post.types";
+import { getDiscipline } from "../constants/disciplines";
+import { DisciplineBadge } from "./DisciplineBadge";
+import { htmlToPlainText } from "../utils/htmlToPlainText";
 
 interface PostCardProps {
   post: Post;
 }
 
-export const PostCard = ({ post }: PostCardProps) => (
-  <Link to={`/posts/${post._id}`} className="block group">
-    <article
-      className="
-      bg-white rounded-xl border border-gray-200 p-6
-      hover:border-accent hover:shadow-md
-      transition-all duration-200
-    "
-    >
-      <div className="flex items-center gap-2 mb-3">
-        <span
-          className="
-          text-xs font-medium px-2.5 py-1 rounded-full
-          bg-accent/10 text-accent
-        "
-        >
-          {post.discipline}
-        </span>
-      </div>
+export const PostCard = ({ post }: PostCardProps) => {
+  const d = getDiscipline(post.discipline);
+  const text = htmlToPlainText(post.content);
+  const summary = text
+    ? `${text.slice(0, 120)}${text.length > 120 ? "..." : ""}`
+    : "Sem descrição disponível.";
 
-      <h2 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-accent transition-colors line-clamp-2">
-        {post.title}
-      </h2>
+  return (
+    <Link to={`/posts/${post._id}`} className="block group">
+      <article
+        className="relative h-full bg-white rounded-card border-hair p-6 transition-colors duration-200 hover:border-green-mid"
+        style={{
+          borderColor: d.border,
+          borderTopColor: d.text,
+          borderTopWidth: 3,
+        }}
+      >
+        <DisciplineBadge discipline={post.discipline} />
 
-      <p className="text-sm text-gray-500 line-clamp-3 mb-4">{post.content}</p>
+        <h2 className="mt-4 text-lg font-medium text-text-primary line-clamp-2">
+          {post.title}
+        </h2>
 
-      <div className="flex items-center justify-between text-xs text-gray-400">
-        <span className="font-medium text-gray-600">{post.teacher}</span>
-        <span>{new Date(post.createdAt).toLocaleDateString("pt-BR")}</span>
-      </div>
-    </article>
-  </Link>
-);
+        <p className="mt-3 text-sm leading-6 text-text-secondary line-clamp-3">
+          {summary}
+        </p>
+
+        <div className="mt-5 flex items-center justify-between text-xs text-text-muted">
+          <span style={{ color: d.text }}>
+            {post.teacher || post.author || "Não informado"}
+          </span>
+          <span>
+            {post.createdAt
+              ? new Date(post.createdAt).toLocaleDateString("pt-BR")
+              : ""}
+          </span>
+        </div>
+      </article>
+    </Link>
+  );
+};
