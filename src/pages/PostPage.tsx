@@ -65,99 +65,93 @@ export const PostPage = () => {
 
   if (isLoading) {
     return (
-      <main className="min-h-screen bg-cream px-4 py-8">
-        <div className="mx-auto max-w-3xl rounded-card border-hair border-green-light bg-white p-8 text-center">
-          <p className="text-text-secondary">Carregando post...</p>
-        </div>
-      </main>
+      <div className="mx-auto max-w-3xl rounded-card border-hair border-green-light bg-white p-8 text-center">
+        <p className="text-text-secondary">Carregando post...</p>
+      </div>
     );
   }
 
   if (error || !post) {
     return (
-      <main className="min-h-screen bg-cream px-4 py-8">
-        <div className="mx-auto max-w-3xl space-y-4">
-          <Feedback variant="error">{error || "Post não encontrado."}</Feedback>
-          <Link
-            to="/home"
-            className="inline-block font-medium text-blue-primary"
-          >
-            ← Voltar para posts
-          </Link>
-        </div>
-      </main>
+      <div className="mx-auto max-w-3xl space-y-4">
+        <Feedback variant="error">{error || "Post não encontrado."}</Feedback>
+        <Link
+          to="/home"
+          className="inline-block font-medium text-blue-primary"
+        >
+          ← Voltar para posts
+        </Link>
+      </div>
     );
   }
 
   return (
-    <main className="min-h-screen bg-cream px-4 py-8 sm:px-6">
-      <article className="mx-auto max-w-3xl rounded-card border-hair border-green-light bg-white p-6 sm:p-8">
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <DisciplineBadge discipline={post.discipline} />
+    <article className="mx-auto max-w-3xl rounded-card border-hair border-green-light bg-white p-6 sm:p-8">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <DisciplineBadge discipline={post.discipline} />
 
-            <h1 className="mt-4 text-3xl font-medium text-text-primary">
-              {post.title}
-            </h1>
-          </div>
-
-          {user?.isTeacher && (
-            <div className="flex gap-3">
-              <Link to={`/posts/${post._id}/edit`}>
-                <Button variant="outline-green">Editar</Button>
-              </Link>
-
-              <Button
-                variant="danger"
-                onClick={handleDelete}
-                isLoading={isDeleting}
-              >
-                Excluir
-              </Button>
-            </div>
-          )}
+          <h1 className="mt-4 text-3xl font-medium text-text-primary">
+            {post.title}
+          </h1>
         </div>
 
-        {deleteError && (
-          <div className="mt-4">
-            <Feedback variant="error">{deleteError}</Feedback>
+        {user?.isTeacher && (
+          <div className="flex gap-3 sm:shrink-0">
+            <Link to={`/posts/${post._id}/edit`}>
+              <Button variant="outline-green">Editar</Button>
+            </Link>
+
+            <Button
+              variant="danger"
+              onClick={handleDelete}
+              isLoading={isDeleting}
+            >
+              Excluir
+            </Button>
           </div>
         )}
+      </div>
 
-        <div className="my-6 border-t border-green-light/60" />
-
-        <div className="text-sm text-text-secondary">
-          <p>
-            <strong className="font-medium">Disciplina:</strong>{" "}
-            {post.discipline || "Não informado"}
-          </p>
-
-          <p className="mt-2">
-            <strong className="font-medium">Autor(a):</strong>{" "}
-            {post.teacher || post.author || "Não informado"}
-          </p>
-
-          <p className="mt-2">
-            <strong className="font-medium">Publicado em:</strong>{" "}
-            {post.createdAt
-              ? new Date(post.createdAt).toLocaleDateString("pt-BR")
-              : "Não informado"}
-          </p>
+      {deleteError && (
+        <div className="mt-4">
+          <Feedback variant="error">{deleteError}</Feedback>
         </div>
+      )}
 
-        <div className="my-6 border-t border-green-light/60" />
+      <div className="my-6 border-t border-green-light/60" />
 
-        <RichTextEditor initialHTML={post.content} editable={false} />
+      <div className="text-sm text-text-secondary">
+        <p>
+          <strong className="font-medium">Disciplina:</strong>{" "}
+          {post.discipline || "Não informado"}
+        </p>
 
-        <div className="mt-8">
-          <Link
-            to="/home"
-            className="font-medium text-blue-primary hover:opacity-80"
-          >
-            ← Voltar
-          </Link>
-        </div>
-      </article>
-    </main>
+        <p className="mt-2">
+          <strong className="font-medium">Autor(a):</strong>{" "}
+          {post.teacher || post.author || "Não informado"}
+        </p>
+
+        <p className="mt-2">
+          <strong className="font-medium">Publicado em:</strong>{" "}
+          {post.createdAt
+            ? new Date(post.createdAt).toLocaleDateString("pt-BR")
+            : "Não informado"}
+        </p>
+      </div>
+
+      <div className="my-6 border-t border-green-light/60" />
+
+      <RichTextEditor initialHTML={post.content} editable={false} />
+
+      <div className="mt-8">
+        <Link
+          to="/home"
+          className="font-medium text-blue-primary hover:opacity-80"
+        >
+          ← Voltar
+        </Link>
+      </div>
+    </article>
   );
 };

@@ -23,9 +23,9 @@ export const AdminPage = () => {
 
   return (
     <div>
-      <div className="mb-8 flex items-center justify-between">
+      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-2xl font-medium text-text-primary">Gerenciar Posts</h1>
-        <Link to="/posts/new">
+        <Link to="/posts/new" className="self-start">
           <Button variant="primary"><IconCirclePlus stroke={2} /> Criar Post</Button>
         </Link>
       </div>
