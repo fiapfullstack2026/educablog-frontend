@@ -15,7 +15,7 @@ services:
     restart: unless-stopped
 
   api:
-    image: ${API_IMAGE:-fiapfullstack/educablog-api:2.0}
+    image: ${API_IMAGE:-fiapfullstack/educablog-api:3.0}
     container_name: educablog-api
     ports:
       - '3000:3000'
